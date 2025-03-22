@@ -2,11 +2,24 @@ from fastapi import FastAPI
 import joblib
 import numpy as np
 
+from fastapi.middleware.cors import CORSMiddleware
+
+
+
+
 app = FastAPI()
 
 # Load the trained model
 model = joblib.load("epa_risk_model.pkl")
 
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins (for local development)
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all HTTP methods
+    allow_headers=["*"],  # Allows all headers
+)
 
 @app.get("/")
 def home():
